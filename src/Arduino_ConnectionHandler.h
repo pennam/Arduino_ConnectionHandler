@@ -69,7 +69,7 @@
   #define NETWORK_CONNECTED NB_NetworkStatus_t::GPRS_READY
 #endif
 
-#if defined(ARDUINO_SAMD_MKRWAN1300) || defined(ARDUINO_SAMD_MKRWAN1310)
+#if defined(ARDUINO_SAMD_MKRWAN1300) || defined(ARDUINO_SAMD_MKRWAN1310) || defined(ARDUINO_PORTENTA_H7_M7)
   #include <MKRWAN.h>
   #define BOARD_HAS_LORA
 #endif
@@ -190,7 +190,7 @@ class ConnectionHandler {
       virtual UDP &getUDP() = 0;
     #endif
 
-    #if defined(BOARD_HAS_LORA)
+    #if defined(BOARD_HAS_LORA) || defined(BOARD_HAS_WIFI)
       virtual int write(const uint8_t *buf, size_t size) = 0;
       virtual int read() = 0;
       virtual bool available() = 0;
@@ -230,11 +230,14 @@ class ConnectionHandler {
 
 #if defined(BOARD_HAS_WIFI)
   #include "Arduino_WiFiConnectionHandler.h"
-#elif defined(BOARD_HAS_GSM)
+#endif
+#if defined(BOARD_HAS_GSM)
   #include "Arduino_GSMConnectionHandler.h"
-#elif defined(BOARD_HAS_NB)
+#endif
+#if defined(BOARD_HAS_NB)
   #include "Arduino_NBConnectionHandler.h"
-#elif defined(BOARD_HAS_LORA)
+#endif
+#if defined(BOARD_HAS_LORA)
   #include "Arduino_LoRaConnectionHandler.h"
 #endif
 

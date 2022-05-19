@@ -24,6 +24,8 @@
 
 #include "Arduino_ConnectionHandler.h"
 
+#if defined(BOARD_HAS_LORA) /* Only compile if the board has LoRa */
+
 /******************************************************************************
    CLASS DECLARATION
  ******************************************************************************/
@@ -37,6 +39,9 @@ class LoRaConnectionHandler : public ConnectionHandler
     virtual int write(const uint8_t *buf, size_t size) override;
     virtual int read() override;
     virtual bool available() override;
+    virtual unsigned long getTime() override;
+    virtual Client & getClient() override{ return _dummy_client; }
+    virtual UDP & getUDP() override { return _dummy_udp; }
 
     inline String getVersion() { return _modem.version(); }
     inline String getDeviceEUI() { return _modem.deviceEUI(); }
@@ -70,6 +75,10 @@ class LoRaConnectionHandler : public ConnectionHandler
     char const * _channelMask;
     _lora_class _device_class;
     LoRaModem _modem;
+    WiFiUDP _dummy_udp;
+    WiFiClient _dummy_client;
 };
+
+#endif /* #ifdef BOARD_HAS_LORA  */
 
 #endif /* ARDUINO_LORA_CONNECTION_HANDLER_H_ */

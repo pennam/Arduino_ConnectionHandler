@@ -19,9 +19,9 @@
    INCLUDE
  ******************************************************************************/
 
-#if defined(ARDUINO_SAMD_MKRWAN1300) || defined(ARDUINO_SAMD_MKRWAN1310) /* Only compile if the board has LoRa */
-
 #include "Arduino_LoRaConnectionHandler.h"
+
+#if defined(BOARD_HAS_LORA) /* Only compile if the board has LoRa */
 
 /******************************************************************************
    TYPEDEF
@@ -57,6 +57,11 @@ LoRaConnectionHandler::LoRaConnectionHandler(char const * appeui, char const * a
 /******************************************************************************
    PUBLIC MEMBER FUNCTIONS
  ******************************************************************************/
+
+unsigned long LoRaConnectionHandler::getTime()
+{
+  return 0;
+}
 
 int LoRaConnectionHandler::write(const uint8_t * buf, size_t size)
 {

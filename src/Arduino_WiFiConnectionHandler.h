@@ -40,6 +40,9 @@ class WiFiConnectionHandler : public ConnectionHandler
     virtual unsigned long getTime() override;
     virtual Client & getClient() override{ return _wifi_client; }
     virtual UDP & getUDP() override { return _wifi_udp; }
+    virtual int write(const uint8_t *buf, size_t size) override { return -1; }
+    virtual int read() override { return -1; }
+    virtual bool available() override { return false; }
 
 
   protected:
