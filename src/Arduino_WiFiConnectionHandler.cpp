@@ -149,7 +149,7 @@ NetworkConnectionState WiFiConnectionHandler::update_handleDisconnecting()
 
 NetworkConnectionState WiFiConnectionHandler::update_handleDisconnected()
 {
-#if !defined(ARDUINO_ARCH_ESP8266) && !defined(ARDUINO_ARCH_ESP32)
+#if !defined(ARDUINO_ARCH_ESP8266) && !defined(ARDUINO_ARCH_ESP32) && !defined(COMPONENT_CYW43XXX)
   WiFi.end();
 #endif /* #if !defined(ARDUINO_ARCH_ESP8266) && !defined(ARDUINO_ARCH_ESP32) */
   if (_keep_alive)
