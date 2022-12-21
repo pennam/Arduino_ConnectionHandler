@@ -26,7 +26,7 @@
 /******************************************************************************
    CONSTANTS
  ******************************************************************************/
-#if defined(ARDUINO_ARCH_ESP8266)
+#if defined(ARDUINO_ARCH_ESP8266) || defined(ARDUINO_ARCH_ESP32)
 static int const ESP_WIFI_CONNECTION_TIMEOUT = 3000;
 #endif
 
@@ -99,7 +99,7 @@ NetworkConnectionState WiFiConnectionHandler::update_handleConnecting()
   if (WiFi.status() != WL_CONNECTED)
   {
     WiFi.begin(_ssid, _pass);
-#if defined(ARDUINO_ARCH_ESP8266)
+#if defined(ARDUINO_ARCH_ESP8266) || defined(ARDUINO_ARCH_ESP32)
     /* Wait connection otherwise board won't connect */
     unsigned long start = millis();
     while((WiFi.status() != WL_CONNECTED) && (millis() - start) < ESP_WIFI_CONNECTION_TIMEOUT) {
