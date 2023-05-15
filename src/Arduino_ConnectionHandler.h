@@ -133,6 +133,16 @@
   #define WIFI_FIRMWARE_VERSION_REQUIRED WIFI_FIRMWARE_REQUIRED
 #endif
 
+#if defined(ARDUINO_RASPBERRY_PI_PICO_W)
+  #include <WiFi.h>
+  #include <WiFiUdp.h>
+
+  #define BOARD_HAS_WIFI
+  #define NETWORK_HARDWARE_ERROR WL_NO_SHIELD
+  #define NETWORK_IDLE_STATUS WL_IDLE_STATUS
+  #define NETWORK_CONNECTED WL_CONNECTED
+#endif
+
 /******************************************************************************
    INCLUDES
  ******************************************************************************/
