@@ -97,6 +97,11 @@ bool LoRaConnectionHandler::available()
   return _modem.available();
 }
 
+unsigned long LoRaConnectionHandler::getTime()
+{
+  return 0;
+}
+
 /******************************************************************************
    PROTECTED MEMBER FUNCTIONS
  ******************************************************************************/
