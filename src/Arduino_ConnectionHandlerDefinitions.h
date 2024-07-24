@@ -69,7 +69,7 @@
   #define NETWORK_CONNECTED WL_CONNECTED
 #endif
 
-#if defined(ARDUINO_OPTA)
+#if defined(ARDUINO_OPTA) && ! defined(USE_NOTECARD)
   #define BOARD_HAS_WIFI
   #define BOARD_HAS_ETHERNET
   #define NETWORK_HARDWARE_ERROR WL_NO_SHIELD
@@ -159,7 +159,8 @@ enum class NetworkAdapter {
   GSM,
   LORA,
   CATM1,
-  CELL
+  CELL,
+  NOTECARD
 };
 
 /******************************************************************************
