@@ -23,6 +23,20 @@
 
 #include <Arduino.h>
 
+/******************************************************************************
+ * AUTOMATICALLY CONFIGURED DEFINES FROM EXTERNAL LIBRARIES
+ ******************************************************************************/
+
+#if defined __has_include
+  #if __has_include (<Arduino_NotecardConnectionHandler.h>)
+    #define USE_NOTECARD
+  #endif
+#endif
+
+/******************************************************************************
+ * AUTOMATICALLY CONFIGURED DEFINES
+ ******************************************************************************/
+
 #ifdef ARDUINO_SAMD_MKR1000
   #define BOARD_HAS_WIFI
   #define NETWORK_HARDWARE_ERROR WL_NO_SHIELD
