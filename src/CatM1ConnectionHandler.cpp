@@ -67,7 +67,7 @@ NetworkConnectionState CatM1ConnectionHandler::update_handleConnecting()
   if(!GSM.begin(_pin, _apn, _login, _pass, _rat, _band))
   {
     Debug.print(DBG_ERROR, F("The board was not able to register to the network..."));
-    return NetworkConnectionState::ERROR;
+    return NetworkConnectionState::DISCONNECTED;
   }
   Debug.print(DBG_INFO, F("Connected to Network"));
   return NetworkConnectionState::CONNECTED;
