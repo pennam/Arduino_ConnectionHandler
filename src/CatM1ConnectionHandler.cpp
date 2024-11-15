@@ -36,6 +36,7 @@ CatM1ConnectionHandler::CatM1ConnectionHandler(const char * pin, const char * ap
 , _pass(pass)
 , _rat(rat)
 , _band(band)
+, _reset(false)
 {
 
 }
@@ -64,11 +65,13 @@ NetworkConnectionState CatM1ConnectionHandler::update_handleInit()
   digitalWrite(ON_MKR2, HIGH);
 #endif
 
-  if(!GSM.begin(_pin, _apn, _login, _pass, _rat, _band))
+  if(!GSM.begin(_pin, _apn, _login, _pass, _rat, _band, _reset))
   {
     Debug.print(DBG_ERROR, F("The board was not able to register to the network..."));
+    _reset = true;
     return NetworkConnectionState::DISCONNECTED;
   }
+  _reset = false;
   return NetworkConnectionState::CONNECTING;
 }
 
