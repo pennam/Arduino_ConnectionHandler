@@ -63,18 +63,38 @@ NetworkConnectionState CatM1ConnectionHandler::update_handleInit()
   pinMode(ON_MKR2, OUTPUT);
   digitalWrite(ON_MKR2, HIGH);
 #endif
-  return NetworkConnectionState::CONNECTING;
-}
 
-NetworkConnectionState CatM1ConnectionHandler::update_handleConnecting()
-{
   if(!GSM.begin(_pin, _apn, _login, _pass, _rat, _band))
   {
     Debug.print(DBG_ERROR, F("The board was not able to register to the network..."));
     return NetworkConnectionState::DISCONNECTED;
   }
-  Debug.print(DBG_INFO, F("Connected to Network"));
-  return NetworkConnectionState::CONNECTED;
+  return NetworkConnectionState::CONNECTING;
+}
+
+NetworkConnectionState CatM1ConnectionHandler::update_handleConnecting()
+{
+  int const is_gsm_access_alive = GSM.isConnected();
+  if (is_gsm_access_alive != 1)
+  {
+    Debug.print(DBG_ERROR, F("GSM connection not alive... disconnecting"));
+    return NetworkConnectionState::DISCONNECTED;
+  }
+
+  Debug.print(DBG_INFO, F("Sending PING to outer space..."));
+  int const ping_result = GSM.ping("time.arduino.cc");
+  Debug.print(DBG_INFO, F("GSM.ping(): %d"), ping_result);
+  if (ping_result < 0)
+  {
+    Debug.print(DBG_ERROR, F("PING failed"));
+    Debug.print(DBG_INFO, F("Retrying in  \"%d\" milliseconds"), 2 * CHECK_INTERVAL_TABLE[static_cast<unsigned int>(NetworkConnectionState::CONNECTING)]);
+    return NetworkConnectionState::CONNECTING;
+  }
+  else
+  {
+    Debug.print(DBG_INFO, F("Connected to Network"));
+    return NetworkConnectionState::CONNECTED;
+  }
 }
 
 NetworkConnectionState CatM1ConnectionHandler::update_handleConnected()
@@ -82,6 +102,7 @@ NetworkConnectionState CatM1ConnectionHandler::update_handleConnected()
   int const is_gsm_access_alive = GSM.isConnected();
   if (is_gsm_access_alive != 1)
   {
+    Debug.print(DBG_ERROR, F("GSM connection not alive... disconnecting"));
     return NetworkConnectionState::DISCONNECTED;
   }
   return NetworkConnectionState::CONNECTED;
